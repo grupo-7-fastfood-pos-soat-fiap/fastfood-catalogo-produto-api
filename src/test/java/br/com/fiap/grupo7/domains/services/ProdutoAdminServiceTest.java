@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class ProdutoAdminServiceTest {
+class ProdutoAdminServiceTest {
 
     private ProdutoAdminService produtoAdminService;
 
@@ -30,7 +30,7 @@ public class ProdutoAdminServiceTest {
     @BeforeEach
     void setup() {
         openMocks = MockitoAnnotations.openMocks(this);
-        produtoAdminService = new ProdutoAdminService(this.categoriaService);
+        produtoAdminService = new ProdutoAdminService(this.produtoRepository, this.categoriaService);
     }
 
     @AfterEach()
