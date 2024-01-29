@@ -62,15 +62,10 @@ public class ProdutoAdminController extends ProdutoClienteController implements 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> alterarProduto(@PathVariable String id, @RequestBody AlteraProdutoRequest request) throws Exception {
         try {
-            return new ResponseEntity<>(produtoAdminService.alterarProduto(id, request), HttpStatus.CREATED);
+            return new ResponseEntity<>(produtoAdminService.alterarProduto(id, request), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(PedidoHelper.asJsonString(new MensagemErro(e.getMessage(), "")), HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Produto> obterProduto(@PathVariable String id) {
-        return new ResponseEntity<>(this.produtoAdminService.obterProduto(id), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}/quantidade", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -88,7 +83,7 @@ public class ProdutoAdminController extends ProdutoClienteController implements 
         return new ResponseEntity<>(this.produtoAdminService.cadastrarPromocaoAoProduto(id, request), HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(value = "/{id}/remove-promocao", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/remove-promocao")
     public ResponseEntity<Boolean> removerPromocaoDoProduto(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(this.produtoAdminService.removerPromocaoDoProduto(id), HttpStatus.NO_CONTENT);
     }

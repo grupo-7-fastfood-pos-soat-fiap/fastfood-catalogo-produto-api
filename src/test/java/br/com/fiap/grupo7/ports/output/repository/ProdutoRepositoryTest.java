@@ -1,5 +1,6 @@
 package br.com.fiap.grupo7.ports.output.repository;
 
+import br.com.fiap.grupo7.domains.Produto;
 import br.com.fiap.grupo7.ports.output.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @AutoConfigureTestDatabase
 @Transactional
@@ -43,66 +51,57 @@ public class ProdutoRepositoryTest {
         assertThat(totalTabelasCriada).isNotNegative();
     }
 
-//    @Test
-//    void deveCriarPedido() {
-//        //var pedidoRequisicao = this.criarPerdido(new Cliente());
-//
-//        when(produtoRepository.save(any(Produto.class))).thenReturn(pedidoRequisicao);
-//
-//        var pedidoResponse = produtoRepository.save(pedidoRequisicao);
-//
-//        verify(produtoRepository, times(1)).save(any());
-//        assertThat(pedidoRequisicao).isNotNull().isEqualTo(pedidoResponse);
-//        assertThat(pedidoRequisicao.getId()).isEqualTo(pedidoResponse.getId());
-//    }
+    @Test
+    void deveCriarProduto() {
+        var produtoReq = new Produto();
 
-//    @Test
-//    void deveBuscarTodosProdutos() {
-//        var pedidoRequisicao1 = this.criarPerdido(new Cliente());
-//
-//        var pedidoRequisicao2 = this.criarPerdido(new Cliente());
-//        pedidoRequisicao2.setId(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
-//
-//        var pedidoRequisicao3 = this.criarPerdido(new Cliente());
-//        pedidoRequisicao3.setId(UUID.fromString("914b7e70-3e0c-4bd7-89c3-595b0db89205"));
-//
-//        List<Produto> pedidos = new ArrayList<>();
-//        pedidos.add((pedidoRequisicao1));
-//        pedidos.add((pedidoRequisicao2));
-//        pedidos.add((pedidoRequisicao3));
-//
-//        when(produtoRepository.findAll()).thenReturn(pedidos);
-//
-//        produtoRepository.findAll();
-//
-//        verify(produtoRepository, times(1)).findAll();
-//        assertThat(produtoRepository.findAll()).isNotNull().isEqualTo(pedidos);
-//    }
+        when(produtoRepository.save(any(Produto.class))).thenReturn(produtoReq);
 
-//    @Test
-//    void deveBuscarPedidoPorId() {
-//        var pedido1 = this.criarPerdido(new Cliente());
-//
-//        var pedido2 = this.criarPerdido(new Cliente());
-//        pedido2.setId(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
-//
-//        var pedido3 = this.criarPerdido(new Cliente());
-//        pedido3.setId(UUID.fromString("914b7e70-3e0c-4bd7-89c3-595b0db89205"));
-//
-//        List<Pedido> pedidos = new ArrayList<>();
-//        pedidos.add((pedido1));
-//        pedidos.add((pedido2));
-//        pedidos.add((pedido3));
-//
-//        when(produtoRepository.findById(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"))).thenReturn(Optional.of(pedido2));
-//
-//        Optional<Pedido> pedidoResponse = produtoRepository.findById(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
-//
-//        verify(produtoRepository, times(1)).findById(any());
-//        pedidoResponse.ifPresent(pedido ->
-//                assertThat(pedido).isNotNull().isEqualTo(Optional.of(pedido2).get())
-//        );
-//    }
+        var pedidoResponse = produtoRepository.save(produtoReq);
+
+        verify(produtoRepository, times(1)).save(any());
+        assertThat(produtoReq).isNotNull().isEqualTo(pedidoResponse);
+        assertThat(produtoReq.getId()).isEqualTo(pedidoResponse.getId());
+    }
+
+    @Test
+    void deveListarTodosProdutos() {
+        var produtoReq1 = new Produto();
+        var produtoReq2 = new Produto();
+        var produtoReq3 = new Produto();
+
+        List<Produto> produtos = new ArrayList<>();
+        produtos.add((produtoReq1));
+        produtos.add((produtoReq2));
+        produtos.add((produtoReq3));
+
+        when(produtoRepository.findAll()).thenReturn(produtos);
+
+        produtoRepository.findAll();
+
+        verify(produtoRepository, times(1)).findAll();
+        assertThat(produtoRepository.findAll()).isNotNull().isEqualTo(produtos);
+    }
+
+    @Test
+    void deveBuscarPedidoPorId() {
+        var produtoReq1 = new Produto();
+        produtoReq1.setId(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
+        var produtoReq2 = new Produto();
+        produtoReq2.setId(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
+        var produtoReq3 = new Produto();
+        produtoReq3.setId(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
+
+        List<Produto> produtos = new ArrayList<>();
+        produtos.add((produtoReq1));
+        produtos.add((produtoReq2));
+        produtos.add((produtoReq3));
+
+        Optional<Produto> pedidoResponse = produtoRepository.findById(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
+
+        verify(produtoRepository, times(1)).findById(any());
+        pedidoResponse.ifPresent(pedido -> assertThat(pedido).isNotNull().isEqualTo(Optional.of(produtoReq2).get()));
+    }
 
     @Test
     void deveAlterarProduto() {
@@ -124,27 +123,23 @@ public class ProdutoRepositoryTest {
         fail("deve listar produtos com promoção ativa");
     }
 
-//    @Test
-//    void deveExcluirProduto() {
-//        var pedido1 = this.criarPerdido(new Cliente());
-//
-//        var pedido2 = this.criarPerdido(new Cliente());
-//        pedido2.setId(UUID.fromString("0727595e-e75a-4ad9-ae62-2fe81d4c2193"));
-//
-//        var pedido3 = this.criarPerdido(new Cliente());
-//        pedido3.setId(UUID.fromString("914b7e70-3e0c-4bd7-89c3-595b0db89205"));
-//
-//        List<Pedido> pedidos = new ArrayList<>();
-//        pedidos.add((pedido1));
-//        pedidos.add((pedido2));
-//        pedidos.add((pedido3));
-//
-//        when(produtoRepository.findAll()).thenReturn(pedidos);
-//        doNothing().when(produtoRepository).deleteById(pedido2.getId());
-//
-//        produtoRepository.deleteById(pedido2.getId());
-//
-//        verify(produtoRepository, times(1)).deleteById(any());
-//    }
+    @Test
+    void deveExcluirProduto() {
+        var produtoReq1 = new Produto();
+        var produtoReq2 = new Produto();
+        var produtoReq3 = new Produto();
+
+        List<Produto> produtos = new ArrayList<>();
+        produtos.add((produtoReq1));
+        produtos.add((produtoReq2));
+        produtos.add((produtoReq3));
+
+        when(produtoRepository.findAll()).thenReturn(produtos);
+        doNothing().when(produtoRepository).deleteById(produtoReq2.getId());
+
+        produtoRepository.deleteById(produtoReq2.getId());
+
+        verify(produtoRepository, times(1)).deleteById(any());
+    }
 
 }

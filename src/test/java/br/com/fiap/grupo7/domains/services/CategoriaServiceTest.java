@@ -1,7 +1,7 @@
 package br.com.fiap.grupo7.domains.services;
 
-import br.com.fiap.grupo7.domains.services.CategoriaService;
-import br.com.fiap.grupo7.domains.services.ProdutoAdminService;
+import br.com.fiap.grupo7.domains.Categoria;
+import br.com.fiap.grupo7.ports.output.CategoriaRepository;
 import br.com.fiap.grupo7.ports.output.ProdutoRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,19 +9,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.AssertionErrors.assertNull;
 
-class ProdutoAdminServiceTest {
-
-    private ProdutoAdminService produtoAdminService;
+class CategoriaServiceTest {
 
     private CategoriaService categoriaService;
 
     @Mock
-    private ProdutoRepository produtoRepository;
+    private CategoriaRepository categoriaRepository;
 
     AutoCloseable openMocks;
 
@@ -31,12 +31,22 @@ class ProdutoAdminServiceTest {
     @BeforeEach
     void setup() {
         openMocks = MockitoAnnotations.openMocks(this);
-        produtoAdminService = new ProdutoAdminService(this.produtoRepository, this.categoriaService);
+        categoriaService = new CategoriaService(this.categoriaRepository);
     }
 
     @AfterEach()
     void tearDown() throws Exception {
         openMocks.close();
+    }
+
+    @Test
+    void deveObterCategoria() {
+        UUID id = UUID.randomUUID();
+        when(categoriaRepository.findById(id)).thenReturn(Optional.empty());
+
+        Categoria result = categoriaService.obterCategoria(id.toString());
+
+        assertNull(result);
     }
 //
 //    @Test

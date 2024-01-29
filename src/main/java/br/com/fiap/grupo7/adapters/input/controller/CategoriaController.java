@@ -3,6 +3,7 @@ package br.com.fiap.grupo7.adapters.input.controller;
 import br.com.fiap.grupo7.adapters.input.model.CategoriaRequest;
 import br.com.fiap.grupo7.domains.Categoria;
 import br.com.fiap.grupo7.domains.services.CategoriaService;
+import br.com.fiap.grupo7.ports.input.CategoriaAdminInputInterface;
 import br.com.fiap.grupo7.utils.PedidoHelper;
 import br.com.fiap.grupo7.utils.model.MensagemErro;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("admin/produtos/categorias")
 @RequiredArgsConstructor
-public class CategoriaController {
+public class CategoriaController implements CategoriaAdminInputInterface {
 
     private final CategoriaService categoriaService;
 

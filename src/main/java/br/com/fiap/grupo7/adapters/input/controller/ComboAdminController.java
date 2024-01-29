@@ -56,7 +56,7 @@ public class ComboAdminController extends ComboClienteController implements Comb
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> alterarCombo(@PathVariable String id, @RequestBody AlteraComboRequest request) throws Exception {
         try {
-            return new ResponseEntity<>(comboAdminService.alterarCombo(id, request), HttpStatus.CREATED);
+            return new ResponseEntity<>(comboAdminService.alterarCombo(id, request), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(PedidoHelper.asJsonString(new MensagemErro(e.getMessage(), "")), HttpStatus.BAD_REQUEST);
         }
@@ -72,7 +72,7 @@ public class ComboAdminController extends ComboClienteController implements Comb
         return new ResponseEntity<>(this.comboAdminService.cadastrarPromocaoAoCombo(id, request), HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(value = "/{id}/remove-promocao", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/remove-promocao")
     public ResponseEntity<Boolean> removerPromocaoDoCombo(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(this.comboAdminService.removerPromocaoDoCombo(id), HttpStatus.NO_CONTENT);
     }

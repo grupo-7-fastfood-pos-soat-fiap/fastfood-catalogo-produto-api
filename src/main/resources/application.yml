@@ -12,9 +12,10 @@ spring:
     # url: jbc:h2:men:testedb
     # url: jdbc:h2:file:./target/h2.db;AUTO_SERVER=true
     # url: jdbc:h2:tcp://localhost:9092/mem:testdb
-    url: jdbc:postgresql://localhost:5432/postgres
+    # url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://database-1.ch0cwqayihwx.us-east-1.rds.amazonaws.com:5432/
     username: postgres
-    password: root
+    password: 2mLLvSyHMUe6OzLPTN9d
     # driverClassName: org.h2.Driver
   jpa:
     database: POSTGRESQL
@@ -37,6 +38,12 @@ spring:
             non_contextual_creation: true
     hibernate:
       ddl-auto: create
+
   # h2:
     # console:
       # enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
